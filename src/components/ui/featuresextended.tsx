@@ -23,11 +23,11 @@ export const Extended = () => {
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
             <h2 className="text-2xl font-bold mb-4 mt-12">Why Use Fortify?</h2>
-            <p className="text-sm md:text-xl font-medium text-gray-600 py-8 ">
+            <p className="text-sm md:text-xl font-medium text-gray-600 py-8">
               The Blockchain and Cryptocurrency realm has been a hotbed of
-              innovation, yet it's also a playground full of risks and hacks.
-              But fear not! With extra layer of security, users can spot threats
-              in the blink of an eye!
+              innovation, yet it is also a playground full of risks and hacks.
+              But fear not, With extra layer of security, users can spot threats
+              in the blink of an eye
             </p>
           </div>
 

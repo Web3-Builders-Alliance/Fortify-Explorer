@@ -45,11 +45,6 @@ export default function Faq() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="py-12 md:py-20">
-          {/* Section header */}
-
-          {/* Items */}
-
-          {/* Testimonials */}
           <div className="max-w-3xl mx-auto mt-20" data-aos="zoom-y-out">
             <div className="flex flex-col gap-12">
               <h2 className="h2 mb-4 mt-12">FAQ</h2>
@@ -67,17 +62,16 @@ export default function Faq() {
                     No, Fortify is not a wallet
                   </AccordionContent>
                 </AccordionItem>
-                {/* ?/ */}
+
                 <AccordionItem value="item-2">
                   <AccordionTrigger>
                     How Accurate is Fortify's Data?
                   </AccordionTrigger>
                   <AccordionContent>
-                    We get our data from the solana blockchain utilizing tools like Shyft, DAS etc
+                    We get our data from the solana blockchain utilizing tools
+                    like Shyft etc
                   </AccordionContent>
                 </AccordionItem>
-                {/* / */}
-             
               </Accordion>
             </div>
           </div>
