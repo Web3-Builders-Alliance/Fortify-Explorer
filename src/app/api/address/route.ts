@@ -57,9 +57,9 @@ export async function POST(req: Request) {
 
       // important fxn for entire call process
 
-      const responseData: ExtendedDasApiAsset = await processLpQueryResult(
+      const responseData = (await processLpQueryResult(
         address
-      );
+      )) as ExtendedDasApiAsset;
 
       return new Response(JSON.stringify(responseData));
     } catch (error) {
@@ -144,8 +144,10 @@ async function processLpQueryResult(token: any) {
 async function getFirstData(token: any) {
   try {
     const tokenAddy = publicKey(token);
-    const assetsDetails = await umi.rpc.getAsset(tokenAddy);
-    const responseData : ExtendedDasApiAsset = await assetsDetails;
+    const assetsDetails: ExtendedDasApiAsset = await umi.rpc.getAsset(
+      tokenAddy
+    );
+    const responseData: ExtendedDasApiAsset = await assetsDetails;
 
     const { id, mutable, burnt } = responseData;
     const tokenName = responseData.content.metadata.name;
