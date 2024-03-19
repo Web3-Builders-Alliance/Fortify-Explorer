@@ -4,10 +4,7 @@ import { OpenOrders } from "@project-serum/serum";
 import { dasApi } from "@metaplex-foundation/digital-asset-standard-api";
 import { publicKey } from "@metaplex-foundation/umi";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
-import {
-  DasApiAsset,
-  DasApiAssetInfo,
-} from "@metaplex-foundation/digital-asset-standard-api";
+import { DasApiAsset, DasApiAssetInfo } from "@/lib/type";
 
 interface ExtendedDasApiAsset extends DasApiAsset {
   // Add the token_info property
