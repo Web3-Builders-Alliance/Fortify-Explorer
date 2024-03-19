@@ -28,11 +28,11 @@ const Header = () => {
         !top ? "bg-white backdrop-blur-sm shadow-lg" : ""
       }`}
     >
-      <div className="max-w-6xl mx-auto px-5 sm:px-6">
+      <div className=" px-5 sm:px-6">
         <div className="flex items-center justify-between h-16 md:h-20">
           <div className="mt-3">
             <Link href="/" className="block" aria-label="Cruip">
-              <Image src={Logo} alt="logo" className="w-24 h-24" />
+              <Image src={Logo} alt="logo" className="w-28 h-28" />
             </Link>
           </div>
 
