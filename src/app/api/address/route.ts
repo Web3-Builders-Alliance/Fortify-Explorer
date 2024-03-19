@@ -149,6 +149,7 @@ async function getFirstData(token: any) {
     const uA = responseData.authorities[0]?.address;
     const scopes = responseData.authorities[0]?.scopes;
     const ownerRenounced = responseData.ownership.delegated;
+
     const supply: any = (
       responseData.token_info.supply /
       10 ** responseData.token_info.decimals
