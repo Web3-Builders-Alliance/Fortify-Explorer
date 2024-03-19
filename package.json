@@ -15,6 +15,7 @@
     "@metaplex-foundation/umi-bundle-defaults": "^0.9.1",
     "@project-serum/serum": "^0.13.65",
     "@radix-ui/react-accordion": "^1.1.2",
+    "@shyft-to/js": "^0.2.36",
     "aos": "^2.3.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",

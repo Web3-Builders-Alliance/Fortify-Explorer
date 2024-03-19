@@ -5,6 +5,7 @@ import { dasApi } from "@metaplex-foundation/digital-asset-standard-api";
 import { publicKey } from "@metaplex-foundation/umi";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 import { DasApiAsset, DasApiAssetInfo } from "@/lib/type";
+import { ShyftSdk, Network } from "@shyft-to/js";
 
 interface ExtendedDasApiAsset extends DasApiAsset {
   // Add the token_info property
@@ -143,40 +144,51 @@ async function processLpQueryResult(token: any) {
 
 async function getFirstData(token: any) {
   try {
-    const tokenAddy = publicKey(token);
-    const assetsDetails: ExtendedDasApiAsset = await umi.rpc.getAsset(
-      tokenAddy
-    );
-    const responseData: ExtendedDasApiAsset = await assetsDetails;
+    const responseData = await fetch(rpc, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        id: "my-id",
+        method: "getAsset",
+        params: {
+          id: token,
+          displayOptions: {
+            showFungible: true,
+          },
+        },
+      }),
+    });
+    const { result } = await responseData.json();
 
-    const { id, mutable, burnt } = responseData;
-    const tokenName = responseData.content.metadata.name;
-    const description = responseData.content.metadata.description;
-    const tokenStandard = responseData.content.metadata.token_standard;
-    const tokenSymbol = responseData.content.metadata.symbol;
-    const tokenImage = responseData.content.links;
-    const creatorAddress = responseData.creators[0]?.address;
-    const uA = responseData.authorities[0]?.address;
-    const scopes = responseData.authorities[0]?.scopes;
-    const ownerRenounced = responseData.ownership.delegated;
-    const supply: any = (
-      responseData.token_info.supply /
-      10 ** responseData.token_info.decimals
-    ).toFixed(2);
-    const decimals = responseData.token_info.decimals;
-    const price = responseData.token_info.price_info.price_per_token;
-    const currency = responseData.token_info.price_info.currency;
-    const fdmc = supply * price;
+    const { id, mutable, burnt } = result;
+    const { name, description, token_standard, symbol } =
+      result.content.metadata;
+    const tokenImage = result.content.links;
+    const creatorAddress = result.creators[0]?.address;
+    const uA = result.authorities[0]?.address;
+    const scopes = result.authorities[0]?.scopes;
+    const ownerRenounced = result.ownership.delegated;
+
+    // Calculate supply and fdmc
+    const supply: any =
+      result.token_info.supply / 10 ** result.token_info.decimals;
+
+    const decimals = result.token_info.decimals;
+    const price = result.token_info.price_info.price_per_token;
+    const fdmc = price * supply;
 
     // Construct token data object
     const tokenData = {
       id: id,
       mutable: mutable,
       burnt: burnt,
-      tokenName: tokenName,
+      tokenName: name,
       description: description,
-      tokenStandard: tokenStandard,
-      tokenSymbol: tokenSymbol,
+      tokenStandard: token_standard,
+      tokenSymbol: symbol,
       tokenImage: tokenImage,
       creatorAddress: creatorAddress,
       uA: uA,
@@ -185,10 +197,11 @@ async function getFirstData(token: any) {
       supply: supply,
       decimals: decimals,
       price: price,
-      currency: currency,
+      // currency: currency,
       fdmc: fdmc,
     };
 
+    // console.log("tokenDataFinal:", tokenData);
     return tokenData;
   } catch (error) {
     console.log(error, "Failure to get data");
@@ -366,8 +379,6 @@ async function parsePoolInfo(poolInfos: any[]) {
         );
 
         totalLiquidityValue += liquidityValue;
-
-        console.log("Total Liquidity Value for All:", totalLiquidityValue);
 
         const totalLiq = totalLiquidityValue;
 
