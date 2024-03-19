@@ -314,9 +314,26 @@ async function parsePoolInfo(poolInfos: any[]) {
         try {
           const tokenAddyB = publicKey(baseMint);
 
-          const assetsDetailsB = await umi.rpc.getAsset(tokenAddyB);
+          const responseData = await fetch(rpc, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              jsonrpc: "2.0",
+              id: "my-id",
+              method: "getAsset",
+              params: {
+                id: tokenAddyB,
+                displayOptions: {
+                  showFungible: true,
+                },
+              },
+            }),
+          });
+          const { result } = await responseData.json();
 
-          const responseDataB = await assetsDetailsB;
+          const responseDataB = await result;
 
           const priceB = responseDataB.token_info.price_info.price_per_token;
 
@@ -332,15 +349,34 @@ async function parsePoolInfo(poolInfos: any[]) {
       const getQuoteDetails = async (quoteMint: string, totalquote: number) => {
         try {
           const tokenAddyQ = publicKey(quoteMint);
-          const assetsDetailsQ = await umi.rpc.getAsset(tokenAddyQ);
 
-          const responseDataQ = await assetsDetailsQ;
+          const responseData = await fetch(rpc, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              jsonrpc: "2.0",
+              id: "my-id",
+              method: "getAsset",
+              params: {
+                id: tokenAddyQ,
+                displayOptions: {
+                  showFungible: true,
+                },
+              },
+            }),
+          });
+
+          const { result } = await responseData.json();
+
+          const responseDataQ = await result;
 
           const priceQ = responseDataQ.token_info.price_info.price_per_token;
 
           const totalLiqQ = totalquote * priceQ;
 
-          return { totalLiqQ }; // Return an object with totalLiqQ
+          return { totalLiqQ };
         } catch (error) {
           console.log(error, "Failure to get data");
           throw error;
