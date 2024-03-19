@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import TokenCard from "../../components/ui/tokenCard";
+
 import TokenInfo from "../../components/ui/tokenInfo";
 
 interface Data {

@@ -4,6 +4,15 @@ import { OpenOrders } from "@project-serum/serum";
 import { dasApi } from "@metaplex-foundation/digital-asset-standard-api";
 import { publicKey } from "@metaplex-foundation/umi";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
+import {
+  DasApiAsset,
+  DasApiAssetInfo,
+} from "@metaplex-foundation/digital-asset-standard-api";
+
+interface ExtendedDasApiAsset extends DasApiAsset {
+  // Add the token_info property
+  token_info: DasApiAssetInfo;
+}
 
 const rpc =
   "https://mainnet.helius-rpc.com/?api-key=90abe477-bdbe-4add-af28-800bf2ca2e04";
@@ -51,7 +60,9 @@ export async function POST(req: Request) {
 
       // important fxn for entire call process
 
-      const responseData = await processLpQueryResult(address);
+      const responseData: ExtendedDasApiAsset = await processLpQueryResult(
+        address
+      );
 
       return new Response(JSON.stringify(responseData));
     } catch (error) {
@@ -149,7 +160,6 @@ async function getFirstData(token: any) {
     const uA = responseData.authorities[0]?.address;
     const scopes = responseData.authorities[0]?.scopes;
     const ownerRenounced = responseData.ownership.delegated;
-
     const supply: any = (
       responseData.token_info.supply /
       10 ** responseData.token_info.decimals
