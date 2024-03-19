@@ -145,7 +145,7 @@ async function getFirstData(token: any) {
   try {
     const tokenAddy = publicKey(token);
     const assetsDetails = await umi.rpc.getAsset(tokenAddy);
-    const responseData = await assetsDetails;
+    const responseData : ExtendedDasApiAsset = await assetsDetails;
 
     const { id, mutable, burnt } = responseData;
     const tokenName = responseData.content.metadata.name;
