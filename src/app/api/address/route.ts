@@ -18,7 +18,8 @@ const rpc =
 
 // RPC endpoint for connecting to Solana network for shyft
 
-const rpcEndpoint = "https://rpc.shyft.to?api_key=DSKXJdx3MYH_3TNP";
+const rpcEndpoint =
+ "https://rpc.shyft.to?api_key=DSKXJdx3MYH_3TNP";
 
 // Define the GraphQL endpoint URL for liquidity pool data
 const lpEndpoint =
@@ -27,7 +28,7 @@ const lpEndpoint =
 const whirlpoolsEndpoint =
   "https://programs.shyft.to/v0/graphql?api_key=DSKXJdx3MYH_3TNP&network=mainnet-beta";
 
-const umi = createUmi(rpc).use(dasApi());
+// const umi = createUmi(rpc).use(dasApi());
 
 // Create a GraphQL client instance for liquidity pool data
 const lpGraphQLClient = new GraphQLClient(lpEndpoint, {
@@ -163,23 +164,81 @@ async function getFirstData(token: any) {
     });
     const { result } = await responseData.json();
 
-    const { id, mutable, burnt } = result;
-    const { name, description, token_standard, symbol } =
-      result.content.metadata;
-    const tokenImage = result.content.links;
-    const creatorAddress = result.creators[0]?.address;
-    const uA = result.authorities[0]?.address;
-    const scopes = result.authorities[0]?.scopes;
-    const ownerRenounced = result.ownership.delegated;
+    let id, mutable, burnt;
 
-    // Calculate supply and fdmc
-    const supply: any =
-      result.token_info.supply / 10 ** result.token_info.decimals;
+    if (result) {
+      ({ id, mutable, burnt } = result);
+    } else {
+      id = undefined;
+      mutable = undefined;
+      burnt = undefined;
+    }
 
-    const decimals = result.token_info.decimals;
-    const price = result.token_info.price_info.price_per_token;
-    const fdmc = price * supply;
+    let name,
+      description,
+      token_standard,
+      symbol,
+      tokenImage,
+      creatorAddress,
+      uA,
+      scopes,
+      ownerRenounced,
+      supply,
+      decimals,
+      price,
+      fdmc;
 
+    if (result.content && result.content.metadata) {
+      const {
+        name: resultName,
+        description: resultDescription,
+        token_standard: resultTokenStandard,
+        symbol: resultSymbol,
+      } = result.content.metadata;
+      name = resultName;
+      description = resultDescription;
+      token_standard = resultTokenStandard;
+      symbol = resultSymbol;
+    } else {
+      name = undefined;
+      description = undefined;
+      token_standard = undefined;
+      symbol = undefined;
+    }
+
+    tokenImage = result.content ? result.content.links : undefined;
+
+    if (result.creators && result.creators[0]) {
+      creatorAddress = result.creators[0].address;
+    } else {
+      creatorAddress = undefined;
+    }
+
+    if (result.authorities && result.authorities[0]) {
+      uA = result.authorities[0].address;
+      scopes = result.authorities[0].scopes;
+    } else {
+      uA = undefined;
+      scopes = undefined;
+    }
+
+    ownerRenounced = result.ownership ? result.ownership.delegated : undefined;
+
+    if (result.token_info) {
+      supply = result.token_info.supply / 10 ** result.token_info.decimals;
+      decimals = result.token_info.decimals;
+      price = result.token_info.price_info
+        ? result.token_info.price_info.price_per_token
+        : undefined;
+      fdmc = price ? price * supply : undefined;
+    } else {
+      supply = undefined;
+      decimals = undefined;
+      price = undefined;
+      fdmc = undefined;
+    }
+
+    console.log("idddd:", id);
     // Construct token data object
     const tokenData = {
       id: id,

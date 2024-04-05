@@ -6,7 +6,7 @@ export const footer = () => {
     <footer>
       <div className="w-full bg-[#000434] ">
         {/* Top area: Blocks */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 border-t border-gray-200">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 border-t border-gray-200 ">
           <div className="sm:flex justify-between ">
           {/* logo  */}
           <div className="flex justify-center">
@@ -18,7 +18,7 @@ export const footer = () => {
               />
             </Link>
           </div>
-          <div className="flex justify-between  gap-8 pb-8 md:py-12 md:border-t border-gray-200">
+          <div className="flex justify-between  gap-8 pb-8 md:py-12 ">
             {/* 1st block */}
             <div className="flex items-center gap-20">
               <div className="sm:col-span-6 md:col-span-3 md:text-lg lg:col-span-2">

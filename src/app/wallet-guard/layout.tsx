@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import Header from "@/components/ui/headers/header";
+
+import Header from "@/components/ui/headers/fotress-header";
 
 import AOS from "aos";
 import "aos/dist/aos.css";

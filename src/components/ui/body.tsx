@@ -3,9 +3,10 @@ import Link from "next/link";
 import Image from "next/image";
 import secure from "../../../public/images/secure.svg";
 
+
 const Body = () => {
   return (
-    <section className="relative bg-[#000434] ">
+    <section className="relative bg-[#000434]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Hero content */}
         <div className="flex flex-col gap-12 md:gap-4 pt-8 pb-24 md:pb-20">
@@ -25,7 +26,7 @@ const Body = () => {
           </div>
 
           {/* Hero image */}
-          <div
+          {/* <div
             className="flex justify-center md:my-12 pr-16 md:pr-0 h-52 md:h-72"
             data-aos="zoom-y-out"
             data-aos-delay="150"
@@ -35,7 +36,7 @@ const Body = () => {
               alt="hero-img"
               className="max-w-sm mx-auto px-4 sm:px-6"
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

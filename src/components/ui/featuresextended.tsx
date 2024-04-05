@@ -10,7 +10,7 @@ import {
 
 export const Extended = () => {
   return (
-    <section className="relative">
+    <section className="relative bg-white">
       {/* Section background (needs .relative class on parent and next sibling elements) */}
       <div
         className="absolute inset-0 top-1/2 md:mt-24 lg:mt-0 bg-[#000434] pointer-events-none"

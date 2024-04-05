@@ -31,7 +31,11 @@ const WalletGuard = () => {
       return;
     }
 
-    setLoading(true); // Set loading to true on button click
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 20000);
 
     try {
       const addressAnalysisResponse = await fetch("/api/address", {
@@ -81,7 +85,7 @@ const WalletGuard = () => {
     if (success) {
       const timeout: any = setTimeout(() => {
         setSuccess(null);
-      }, 8000);
+      }, 1000);
 
       return () => clearTimeout(timeout);
     }
@@ -91,19 +95,19 @@ const WalletGuard = () => {
     if (success) {
       const timeout: any = setTimeout(() => {
         setData(initialData);
-      }, 20000);
+      }, 60000);
 
       return () => clearTimeout(timeout);
     }
   }, [success]);
 
   return (
-    <section className="relative mt-24 mb-40">
+    <section className="relative  mb-40 bg-white">
       <div
         className="absolute inset-0 top-1/2 md:mt-24 lg:mt-0 pointer-events-none"
         aria-hidden="true"
       ></div>
-      <div className="absolute left-0 right-0 bottom-0 m-auto w-px p-px h-20 bg-gray-200 transform translate-y-1/2"></div>
+
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
         <div className="py-12 md:py-20">
           {/* Section header */}
@@ -127,24 +131,43 @@ const WalletGuard = () => {
                 onChange={handleChange}
                 className="w-full md:w-auto px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
               />
-
-              <button
-                onClick={handleSubmit}
-                disabled={loading}
-                className={`bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 transition-opacity ${
-                  loading ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-              >
-                {loading && (
-                  <i
-                    className="animate-spin fa fa-spinner"
-                    aria-hidden="true"
-                  ></i>
-                )}
-                {loading ? " Analysing" : "Analyse"}{" "}
-                {/* Change button text based on loading state */}
-              </button>
             </div>
+            <button
+              onClick={handleSubmit}
+              disabled={loading}
+              className={`bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 transition-opacity ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+            >
+              <span className="flex items-center gap-1">
+                {loading ? (
+                  <>
+                    <svg
+                      className="animate-spin h-5 w-5 mr-3"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A8.001 8.001 0 0120 12h-4a4 4 0 00-4-4V4.708C7.704 5.586 5.586 7.704 4.707 10H6v2H2v4.291zM16 14a4 4 0 004-4h-4v4z"
+                      ></path>
+                    </svg>
+                    Analyzing
+                  </>
+                ) : (
+                  "Analyze"
+                )}
+              </span>
+            </button>
             {error && <p className="text-red-500">{error}</p>}
             {success && <p className="text-green-500">{success}</p>}
 

@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import secure from "../../../public/images/secure.svg";
@@ -5,7 +6,7 @@ import bg from "../../../public/images/Fortify-bg.png";
 
 export default function Hero() {
   return (
-    <section className="relative">
+    <section className="relative bg-white">
       {/* Illustration behind hero content */}
 
       <div>
@@ -25,7 +26,7 @@ export default function Hero() {
             </h1>
             <div className="max-w-3xl mx-auto">
               <p
-                className="text-sm py-4 md:text-xl md:leading-10 text-gray-600 mb-8 font-semibold"
+                className="flex text-justify text-sm py-4 md:text-xl md:leading-10 text-gray-600 mb-8 font-semibold"
                 data-aos="zoom-y-out"
                 data-aos-delay="150"
               >
@@ -34,24 +35,16 @@ export default function Hero() {
                 and user security along the journey
               </p>
               <div
-                className="flex gap-2 max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center"
+                className="flex justify-center lg:justify-start gap-2"
                 data-aos="zoom-y-out"
                 data-aos-delay="300"
               >
                 <div>
                   <Link
-                    href="/wallet-guard"
-                    className="py-3 px-8 rounded-lg text-white bg-[#03045e] hover:bg-[#333661] w-full mb-4 sm:w-auto sm:mb-0"
-                  >
-                    Get Started
-                  </Link>
-                </div>
-                <div>
-                  <Link
-                    href="/"
+                    href="/fortress"
                     className="py-3 px-8 rounded-lg text-white bg-gray-900 hover:bg-gray-800 w-full sm:w-auto sm:ml-4"
                   >
-                    Scan Now
+                    Get Started
                   </Link>
                 </div>
               </div>

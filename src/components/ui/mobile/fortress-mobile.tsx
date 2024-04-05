@@ -1,15 +1,20 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { FC, useState, useRef, useEffect } from "react";
 import { Transition } from "@headlessui/react";
 import Link from "next/link";
 import { FaBarsStaggered, FaX } from "react-icons/fa6";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import ConnectWallet from "../connectWallet";
 
-const MobileMenu = () => {
+const MobileMenu: FC = ({}) => {
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
 
   const trigger = useRef<HTMLButtonElement>(null);
   const mobileNav = useRef<HTMLDivElement>(null);
+
+  const { publicKey } = useWallet();
 
   // close the mobile menu on click outside
   useEffect(() => {
@@ -72,31 +77,53 @@ const MobileMenu = () => {
           <ul className="flex flex-col w-full gap-4 justify-center items-center ">
             <li>
               <Link
+                href="/fortress"
+                className="font-bold text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
+              >
+                Fortress
+              </Link>
+            </li>
+            {/* ///////////////// */}
+            <li>
+              <Link
                 href="/wallet-guard"
-                className="flex font-medium w-full text-gray-600 hover:text-gray-900 py-2 justify-center"
-                onClick={() => setMobileNavOpen(false)}
+                className="font-bold text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
               >
                 Token Guard
               </Link>
             </li>
+            {/* //////////////// */}
+
             <li>
               <Link
-                href="/"
-                className="flex font-medium w-full text-gray-600 hover:text-gray-900 py-2 justify-center"
-                onClick={() => setMobileNavOpen(false)}
+                href="/fortress"
+                className="font-bold text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
               >
-                {" "}
-                Fortress
+                Fortify Revoke
               </Link>
             </li>
-            <li className="flex w-full text-center px-4">
+            {/* /////////////// */}
+            {/* <li>
               <Link
-                href="/"
-                className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 w-full my-2 p-2 rounded-lg"
-                onClick={() => setMobileNavOpen(false)}
+                href="/fortress"
+                className="font-bold text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
               >
-                <span>Connect Wallet </span>
+                Token List
               </Link>
+            </li> */}
+
+            <li className="flex mt-4">
+              <div className="flex-none">
+                <WalletMultiButton
+                  className="flex rounded-3xl"
+                  style={{
+                    backgroundColor: "#000434",
+                    color: "white",
+                    fontWeight: "bold",
+                  }}
+                />
+                <ConnectWallet />
+              </div>
             </li>
           </ul>
         </Transition>
