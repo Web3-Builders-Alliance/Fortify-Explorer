@@ -36,7 +36,7 @@ const Header: FC = ({}) => {
         <div className="flex items-center justify-between h-16 md:h-20">
           <div className="mt-3">
             <Link href="/" className="block" aria-label="Cruip">
-              <Image src={Logo} alt="logo" className="w-28 h-28" />
+              <Image src={Logo} alt="logo" className="w-20 h-20" />
             </Link>
           </div>
 
