@@ -4,7 +4,7 @@ import { FC, useEffect } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
-const ConnectWallet = ({ }) => {
+const ConnectWallet = ({}) => {
   const { setVisible } = useWalletModal();
   const { wallet, connect, connecting, publicKey } = useWallet();
 
@@ -25,7 +25,7 @@ const ConnectWallet = ({ }) => {
   //     } else {
   //       connect();
   //     }
-     
+
   //   } catch (error) {
   //     console.log("Error connecting to the wallet: ", (error as any).message);
   //   }

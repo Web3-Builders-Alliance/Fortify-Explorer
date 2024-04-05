@@ -422,7 +422,7 @@ const Fortress = () => {
                 <span className="flex justify-center text-9xl w-40 text-red-600">
                   <TbCircleDotted />
                 </span>
-                <p className="absolute top-20 text-6xl text-green-500/60">
+                <p className="absolute top-20 mt-2 text-5xl text-green-500/60">
                   {walletHealth}
                 </p>
               </div>

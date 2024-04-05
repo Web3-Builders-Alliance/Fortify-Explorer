@@ -61,7 +61,7 @@ const Header: FC = ({}) => {
                       fontWeight: "bold",
                     }}
                   />
-                  <ConnectWallet />
+                  {/* <ConnectWallet /> */}
                 </div>
               </li>
             </ul>
