@@ -1,8 +1,7 @@
 "use client";
 
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useRef } from "react";
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
-import Loader from "@/components/ui/Loader";
 import { PublicKey, Transaction, Connection } from "@solana/web3.js";
 import {
   getTokensMetadata,
@@ -12,10 +11,20 @@ import {
 } from "@/components/utils/getTokensMetadata";
 import { AccountLayout, Token, TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import { debounce } from "lodash";
-
-import { FaSearchDollar, FaFighterJet, FaBatteryFull } from "react-icons/fa";
-import { TbCircleDotted } from "react-icons/tb";
 import Scanresults from "@/components/ui/scanresults";
+import { FaSearchDollar, FaFighterJet, FaBatteryFull } from "react-icons/fa";
+import ApexCharts from "apexcharts";
+
+import dynamic from "next/dynamic";
+
+// Use dynamic import to load the component only on the client-side
+const DynamicArc = dynamic(() => import("../../components/arc"), {
+  ssr: false,
+});
+
+interface RadialBarChartProps {
+  score: number;
+}
 
 const Fortress = () => {
   const [loading, setLoading] = useState(false);
@@ -45,6 +54,7 @@ const Fortress = () => {
   const [unknownNftNum, setUnknownNftNum] = useState<number | any>(0);
   const [unknownToken, setUnknownToken] = useState<number | any>(0);
   const [unknownTokenNum, setUnknownTokenNum] = useState<number | any>(0);
+  const [walletStatus, setWalletStatus] = useState<string>("");
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -255,15 +265,22 @@ const Fortress = () => {
 
     const finalScore = Math.round(totalWallet);
 
+    const getStatus = (score: any) => {
+      if (score >= 0 && score <= 15) return "Critical";
+      if (score >= 16 && score <= 35) return "Unsafe";
+      if (score >= 36 && score <= 45) return "Vulnerable";
+      if (score >= 46 && score <= 60) return "Degen but Okay";
+      if (score >= 61 && score <= 75) return "Stable";
+      if (score >= 76 && score <= 85) return "Healthy";
+      if (score >= 86 && score <= 93) return "Fortified";
+      if (score >= 94 && score <= 100) return "Excellent";
+      return "Unknown";
+    };
+
+    setWalletStatus(getStatus(finalScore));
+
     // Set wallet health state
     setWalletHealth(finalScore);
-
-    // Log individual scores
-    console.log("Token Score:", groupToken);
-    console.log("NFT Score:", groupNft);
-    console.log("Unknown Score:", unknownPart);
-    console.log("Token Percentile:", tokenPercentile);
-    console.log("Total Wallet Points:", totalWallet);
   }, [
     tokenAccounts,
     tokenLength,
@@ -286,9 +303,9 @@ const Fortress = () => {
 
     getUserTokenDelegated();
 
-    setTimeout(getUserTokenAccounts, 5000);
+    getUserTokenAccounts();
 
-    await setTimeout(() => getNftsInWallet(inputPub), 8000);
+    await getNftsInWallet(inputPub);
   };
 
   const showModalFunction = async () => {
@@ -315,7 +332,7 @@ const Fortress = () => {
       const timeOutLoader = setTimeout(() => {
         setIsFetched(false);
         setTokenFetched(false);
-      }, 30000);
+      }, 14000);
 
       return () => clearTimeout(timeOutLoader);
     }
@@ -415,16 +432,17 @@ const Fortress = () => {
             {/* //................. */}
 
             <div className="flex flex-col px-6 gap-8 mb-10 mt-20 bg-[#33365d]/40   rounded-xl shadow-2xl border border-[#34d4f7]/60 w-[354px] sm:w-full  lg:w-2/5  md:h-[460px] items-center justify-center">
-              <div className="relative flex flex-col justify-center items-center mt-6 gap-6">
+              <div className="relative flex flex-col justify-center items-center  gap-4">
                 <p className="text-lg font-black text-green-500">
                   Wallet Fortress Score
                 </p>
-                <span className="flex justify-center text-9xl w-40 text-red-600">
-                  <TbCircleDotted />
+
+                <div>
+                  <DynamicArc score={walletHealth} />
+                </div>
+                <span className="text-lg font-medium text-gray-400">
+                  {walletStatus}
                 </span>
-                <p className="absolute top-20 mt-2 text-5xl text-green-500/60">
-                  {walletHealth}
-                </p>
               </div>
 
               <input
@@ -435,7 +453,7 @@ const Fortress = () => {
                 placeholder="Enter Wallet Address..."
                 value={inputPub}
                 onChange={handleChange}
-                className="flex  w-full h-9  border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+                className="flex  w-full h-7  border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
               />
 
               {!showErrorModal ? (
@@ -532,369 +550,9 @@ const Fortress = () => {
               </div>
             </div>
           )}
-
-          {/* {!connected ? (
-            <p className="mt-6 bg-green-600 p-6 rounded-lg font-semibold text-lg ">
-              Connect to Scan your wallet
-            </p>
-          ) : (
-            <Scan />
-          )} */}
         </div>
       </div>
     </section>
-  );
-};
-
-const Scan: FC = ({}) => {
-  const { connection } = useConnection();
-
-  const wallet = useWallet();
-
-  const [tokenAccounts, setTokenAccounts] = useState<any | null>(null);
-  const [userTokenDelegated, setUserTokenDelegated] = useState<any | null>(
-    null
-  );
-  const [tokenFetched, setTokenFetched] = useState<boolean>(false);
-  const [isFetched, setIsFetched] = useState<boolean>(false);
-  const [isRevoking, setIsRevoking] = useState<boolean>(false);
-  const [currentTx, setCurrentTx] = useState<number | null>(null);
-  const [totalTx, setTotalTx] = useState<number | null>(null);
-  const [success, setSuccess] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>("");
-  const [toRevoke, setToRevoke] = useState<any>([]);
-
-  // get All Token Holdings
-  async function getUserTokenAccounts() {
-    if (!wallet.publicKey) {
-      setTokenAccounts([]);
-      return;
-    }
-    const publickey = wallet.publicKey;
-    setTokenFetched(false);
-
-    const { value: splTokens } = await connection.getTokenAccountsByOwner(
-      publickey,
-      {
-        programId: new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"),
-      },
-      "processed"
-    );
-
-    const tokensFromAccount = splTokens.map((t) => {
-      const data = t.account.data;
-      const info = AccountLayout.decode(data);
-      const mintAdddress = new PublicKey(info.mint).toBase58();
-      const tokenAccountaddress = t.pubkey.toBase58();
-      return { tokenAccountaddress, mintAdddress };
-    });
-
-    const accountTokens = await getTokensMetadata(
-      tokensFromAccount,
-      connection
-    );
-
-    setTokenAccounts(accountTokens);
-    setTokenFetched(true);
-
-    console.log("user tokens", accountTokens);
-  }
-
-  const debouncedGetUserTokenAccounts = debounce(getUserTokenAccounts, 1000);
-
-  async function getUserTokenDelegated() {
-    if (!wallet.publicKey) {
-      setUserTokenDelegated([]);
-      return;
-    }
-    const publickey = wallet.publicKey;
-    const pb = publickey.toBase58();
-
-    console.log("pubKey:", pb);
-    setIsFetched(false);
-
-    const { value: splAccounts } = await connection.getTokenAccountsByOwner(
-      publickey,
-      {
-        programId: new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"),
-      },
-      "processed"
-    );
-
-    console.log("value:", splAccounts);
-
-    // checks for delegated token accounts
-    const tokenDelegated = splAccounts
-      .filter((m) => {
-        const data = m.account.data;
-        const info = AccountLayout.decode(data);
-        const delegateOption = info.delegateOption;
-        return delegateOption != 0;
-      })
-      .map((m) => {
-        const data = m.account.data;
-        const info = AccountLayout.decode(data);
-        const mintAdddress = new PublicKey(info.mint).toBase58();
-        const tokenAccountaddress = m.pubkey.toBase58();
-        return { tokenAccountaddress, mintAdddress };
-      });
-
-    console.log("TOkenDelegated:", tokenDelegated);
-
-    const tokenDelegatedMetadata = await getTokensMetadata(
-      tokenDelegated,
-      connection
-    );
-
-    setUserTokenDelegated(tokenDelegatedMetadata);
-    setIsFetched(true);
-    console.log("user delegated tokens", tokenDelegatedMetadata);
-  }
-
-  useEffect(() => {
-    getUserTokenDelegated();
-    debouncedGetUserTokenAccounts();
-  }, [wallet.publicKey]);
-
-  function SelectButton(props: { token: any }) {
-    const [isSelected, setIsSelected] = useState(false);
-    const tokenAccount = props.token.tokenAccount;
-
-    return (
-      <div>
-        {!isSelected ? (
-          <button
-            className="py-2 px-2 font-bold rounded-xl text-xs bg-[#663b99] hover:bg-[#36185b] uppercase sm:ml-1 mb-2 sm:mb-4"
-            onClick={() => {
-              setIsSelected(true);
-              toRevoke.push(tokenAccount);
-            }}
-          >
-            Select
-          </button>
-        ) : (
-          <button
-            className="py-2 px-2 font-bold rounded-xl text-xs bg-[#36185b] hover:bg-[#663b99] uppercase sm:ml-1 mb-2 sm:mb-4"
-            onClick={() => {
-              setIsSelected(false);
-              toRevoke.splice(toRevoke.indexOf(tokenAccount), 1);
-            }}
-          >
-            Unselect
-          </button>
-        )}
-      </div>
-    );
-  }
-
-  const Revoke = async () => {
-    const publickey = wallet.publicKey;
-    try {
-      if (toRevoke[0] != undefined && publickey) {
-        setIsRevoking(true);
-        setSuccess(false);
-        setMessage("");
-        const nbPerTx = 5;
-        let nbTx: number;
-        if (toRevoke.length % nbPerTx == 0) {
-          nbTx = toRevoke.length / nbPerTx;
-        } else {
-          nbTx = Math.floor(toRevoke.length / nbPerTx) + 1;
-        }
-        setTotalTx(nbTx);
-
-        for (let i = 0; i < nbTx; i++) {
-          setCurrentTx(i + 1);
-          let Tx = new Transaction();
-
-          let bornSup: number;
-
-          if (i == nbTx - 1) {
-            bornSup = toRevoke.length;
-          } else {
-            bornSup = nbPerTx * (i + 1);
-          }
-
-          for (let j = nbPerTx * i; j < bornSup; j++) {
-            const account = new PublicKey(toRevoke[j].tokenAccount);
-
-            const RevokeInstruction = Token.createRevokeInstruction(
-              TOKEN_PROGRAM_ID,
-              account,
-              publickey,
-              []
-            );
-
-            Tx.add(RevokeInstruction);
-          }
-
-          const signature = await wallet.sendTransaction(Tx, connection);
-          const confirmed = await connection.confirmTransaction(
-            signature,
-            "processed"
-          );
-          console.log("confirmation", signature);
-        }
-        setToRevoke([]);
-        setIsRevoking(false);
-        setSuccess(true);
-        await getUserTokenDelegated();
-      } else {
-        setMessage("Please choose at least one token to revoke first!");
-        setSuccess(false);
-      }
-    } catch (error) {
-      await getUserTokenDelegated();
-      setToRevoke([]);
-      setIsRevoking(false);
-      console.log(error);
-    }
-  };
-
-  return (
-    <div className="container mx-auto max-w-6xl p-8 2xl:px-0">
-      <div className="">
-        <div className="text-center pt-2">
-          <div className="hero min-h-16 p-0 pt-10">
-            <div className="text-center hero-content w-full">
-              <div className="w-full">
-                <div className="mb-auto my-10">
-                  {!wallet.publicKey && (
-                    <div className="text-center text-2xl pt-16">
-                      Please, connect your wallet!
-                    </div>
-                  )}
-
-                  {!isFetched && wallet.publicKey && (
-                    <div className="mt-[25%]">
-                      <Loader text="Fetching tokens..." />
-                    </div>
-                  )}
-
-                  {isFetched && wallet.publicKey && (
-                    <div>
-                      {userTokenDelegated.length ? (
-                        <div className="flex justify-center">
-                          {!isRevoking ? (
-                            <button
-                              className="btn mx-2"
-                              onClick={() => Revoke()}
-                            >
-                              Revoke All Selected
-                            </button>
-                          ) : (
-                            <button className="btn mx-2">
-                              <svg
-                                role="status"
-                                className="inline mr-3 w-4 h-4 text-white animate-spin"
-                                viewBox="0 0 100 101"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                                  fill="#E5E7EB"
-                                />
-                                <path
-                                  d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                                  fill="currentColor"
-                                />
-                              </svg>
-                              Revoking...
-                            </button>
-                          )}
-                        </div>
-                      ) : null}
-
-                      <div className="my-2">
-                        {isRevoking && currentTx != null && totalTx != null ? (
-                          <div>
-                            Please confirm Tx: {currentTx}/{totalTx}
-                          </div>
-                        ) : (
-                          <div className="h-[27px]"></div>
-                        )}
-                      </div>
-
-                      <div className="my-2">
-                        {success ? (
-                          <div className="text-[#00FF00]">
-                            Successfully closed!
-                          </div>
-                        ) : (
-                          <div className="h-[27px]"></div>
-                        )}
-                      </div>
-
-                      <div className="my-2">
-                        {message != "" ? (
-                          <div className="text-[#FF0000]">{message}</div>
-                        ) : (
-                          <div className="h-[27px]"></div>
-                        )}
-                      </div>
-
-                      {!userTokenDelegated.length ? (
-                        <div className="text-center text-2xl pt-16">
-                          No delegated token found in this wallet
-                        </div>
-                      ) : (
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 items-start">
-                          {userTokenDelegated?.map((token: any) => (
-                            <div
-                              key={token}
-                              className={`card bg-[#15263F] max-w-xs rounded-xl border-2 border-[#FFFFFF]`}
-                            >
-                              <div>
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    flexWrap: "wrap",
-                                    justifyContent: "center",
-                                  }}
-                                >
-                                  <img
-                                    src={token.logoURI}
-                                    className="mt-4 rounded-xl w-[125px] h-[125px] sm:w-[200px] sm:h-[200px] md:w-[160px] md:h-[160px] lg:w-[200px] lg:h-[200px] "
-                                  ></img>
-                                </div>
-                                <div
-                                  style={{
-                                    fontSize: "12px",
-                                    lineHeight: "19.08px",
-                                    marginLeft: "10px",
-                                  }}
-                                >
-                                  {token.name}
-                                </div>
-                              </div>
-
-                              <div className="flex justify-around my-2">
-                                <SelectButton token={token} />
-                                <a
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="py-2 px-2 font-bold rounded-xl text-xs bg-[#9945FF] hover:bg-[#7a37cc] uppercase sm:ml-1 mb-2 sm:mb-4"
-                                  href={
-                                    "https://solscan.io/token/" + token.mint
-                                  }
-                                >
-                                  Check Solscan
-                                </a>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   );
 };
 

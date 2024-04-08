@@ -5,6 +5,9 @@ import { Transition } from "@headlessui/react";
 import Image from "next/image";
 import FeaturesBg from "../../../public/images/features-bg.png";
 import FeaturesElement from "../../../public/images/features-element.png";
+import token from "../../../public/images/token-g.png";
+import mfa from "../../../public/images/mfa.png";
+import fortressm from "../../../public/images/fortress-img.png";
 import React from "react";
 
 export default function Features() {
@@ -32,7 +35,6 @@ export default function Features() {
       <div className="absolute left-0 right-0 m-auto w-px p-px h-20 bg-gray-200 transform -translate-y-1/2"></div>
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
-
         {/* illustration  */}
         <div
           className="absolute left-1/2 transform -translate-x-1/2 -bottom-12 pointer-events-none -z-1"
@@ -98,12 +100,12 @@ export default function Features() {
                 >
                   <div>
                     <div className="font-bold leading-snug tracking-tight mb-1">
-                      Token Analysis
+                      Token Guard
                     </div>
                     <div className="text-sm md:text-xl text-gray-600 font-medium leading-7">
                       Fortify provides users with comprehensive token analysis
-                      thanks to Metaplex DAS, shyft etc. Gain firsthand
-                      insights into tokens you want to buy or{" "}
+                      thanks to Metaplex DAS, shyft and helius rpc methods. Gain
+                      firsthand insights into tokens you want to buy or{" "}
                       <span className="line-through">Degen</span>
                     </div>
                   </div>
@@ -131,11 +133,14 @@ export default function Features() {
                 >
                   <div>
                     <div className="font-bold leading-snug tracking-tight mb-1">
-                      Wallet Scan
+                      MFA methods and additional security
                     </div>
                     <div className="text-sm md:text-xl text-gray-600 font-medium leading-7">
-                      Analyze wallet health and revoke access to previously
-                      connected dapps ensuring no loose ends are left behind
+                      We strive to offer innovative multi-factor authentication
+                      (MFA) methods tailored for both wallets and users,
+                      enhancing security measures. Leveraging multi-signature
+                      (multi-sig) technology, we want to add an extra layer of
+                      security.
                     </div>
                   </div>
                   <div className="flex justify-center items-center w-8 h-8 bg-white rounded-full shadow flex-shrink-0 ml-3">
@@ -168,9 +173,11 @@ export default function Features() {
                       Fortify Fortress
                     </div>
                     <div className="text-sm md:text-xl text-gray-600 font-medium leading-7">
-                      Introducing Fortress, our security kit for solana users
-                      featuring multi-sig function and MFA abilities. We simply
-                      want to fortify your fortress!
+                      Presenting Fortress, our comprehensive security kit
+                      designed specifically for Solana users. It includes
+                      advanced features such as Wallet Scan and Wallet Health,
+                      coupled with a scoring system to assess the health and
+                      strength of your wallet.
                     </div>
                   </div>
                   <div className="flex justify-center items-center w-8 h-8 bg-white rounded-full shadow flex-shrink-0 ml-3">
@@ -191,7 +198,7 @@ export default function Features() {
             </div>
 
             {/* Tabs items */}
-            <div className="max-w-xl md:max-w-none md:w-full mx-auto md:col-span-5 lg:col-span-6 mb-8 md:mb-0 md:order-1">
+            <div className="max-w-xl md:max-w-none md:w-full mx-auto md:col-span-5 lg:col-span-6 mb-8 mt-12 lg:mt-52 md:mb-0 md:order-1">
               <div className="transition-all">
                 <div
                   className="relative flex flex-col text-center lg:text-right"
@@ -214,19 +221,11 @@ export default function Features() {
                   >
                     <div className="relative inline-flex flex-col">
                       <Image
-                        className="md:max-w-none mx-auto rounded"
-                        src={FeaturesBg}
-                        width={500}
+                        className="md:max-w-none mx-auto rounded-xl"
+                        src={token}
+                        width={580}
                         height="462"
                         alt="Features bg"
-                      />
-                      <Image
-                        className="md:max-w-none absolute w-full left-0 transform animate-float"
-                        src={FeaturesElement}
-                        width={500}
-                        height="44"
-                        alt="Element"
-                        style={{ top: "30%" }}
                       />
                     </div>
                   </Transition>
@@ -246,19 +245,11 @@ export default function Features() {
                   >
                     <div className="relative inline-flex flex-col">
                       <Image
-                        className="md:max-w-none mx-auto rounded"
-                        src={FeaturesBg}
-                        width={500}
+                        className="md:max-w-none mx-auto rounded-xl"
+                        src={mfa}
+                        width={580}
                         height="462"
                         alt="Features bg"
-                      />
-                      <Image
-                        className="md:max-w-none absolute w-full left-0 transform animate-float"
-                        src={FeaturesElement}
-                        width={500}
-                        height="44"
-                        alt="Element"
-                        style={{ top: "30%" }}
                       />
                     </div>
                   </Transition>
@@ -278,19 +269,11 @@ export default function Features() {
                   >
                     <div className="relative inline-flex flex-col">
                       <Image
-                        className="md:max-w-none mx-auto rounded"
-                        src={FeaturesBg}
-                        width={500}
+                        className="md:max-w-none mx-auto rounded-xl"
+                        src={fortressm}
+                        width={580}
                         height="462"
                         alt="Features bg"
-                      />
-                      <Image
-                        className="md:max-w-none absolute w-full left-0 transform animate-float"
-                        src={FeaturesElement}
-                        width={500}
-                        height="44"
-                        alt="Element"
-                        style={{ top: "30%" }}
                       />
                     </div>
                   </Transition>

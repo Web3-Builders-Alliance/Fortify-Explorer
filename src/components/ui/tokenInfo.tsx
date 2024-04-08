@@ -1,17 +1,14 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import { FaBolt } from "react-icons/fa";
-import Image from "next/image";
 
 interface TokenInfoProps {
   tokenData: any;
-  totalLiquidityValue: any;
+  verified: boolean;
+  // totalLiquidityValue: any;
 }
 
-const TokenInfo: React.FC<TokenInfoProps> = ({
-  tokenData,
-  totalLiquidityValue,
-}) => {
+const TokenInfo: React.FC<TokenInfoProps> = ({ tokenData, verified }) => {
   const {
     id,
     mutable,
@@ -117,10 +114,10 @@ const TokenInfo: React.FC<TokenInfoProps> = ({
             <div className="font-semibold text-xs lg:text-lg flex flex-row justify-between pt-1">
               <p>Liquidity</p>
               <p>
-                $
-                {totalLiquidityValue.toLocaleString(undefined, {
+                coming soon...
+                {/* {totalLiquidityValue.toLocaleString(undefined, {
                   maximumFractionDigits: 0,
-                })}
+                })} */}
               </p>
             </div>
           </div>
@@ -195,6 +192,20 @@ const TokenInfo: React.FC<TokenInfoProps> = ({
 
               <p className={ownerRenounced ? "text-red-500" : "text-green-500"}>
                 {ownerRenounced ? "Yes" : "No"}{" "}
+                <i className="fa fa-times-circle-o" aria-hidden="true"></i>
+              </p>
+            </div>
+
+            <div className="font-semibold text-xs lg:text-lg flex flex-row justify-between pt-2">
+              <div className="flex items-center  flex-row gap-1 ">
+                <span className="w-4 h-4">
+                  <FaBolt />
+                </span>
+                <p> validated token addresses  </p>
+              </div>
+
+              <p className={verified ? "text-green-500" : "text-red-500"}>
+                {verified ? "Yes" : "No"}{" "}
                 <i className="fa fa-times-circle-o" aria-hidden="true"></i>
               </p>
             </div>

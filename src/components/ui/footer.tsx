@@ -8,105 +8,73 @@ export const footer = () => {
         {/* Top area: Blocks */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 border-t border-gray-200 ">
           <div className="sm:flex justify-between ">
-          {/* logo  */}
-          <div className="flex justify-center">
-            <Link href="/" className="" aria-label="Cruip">
-              <Image
-                src={Logo}
-                alt="logo"
-                className="w-64 h-64 sm:w-72 sm:h-72 "
-              />
-            </Link>
-          </div>
-          <div className="flex justify-between  gap-8 pb-8 md:py-12 ">
-            {/* 1st block */}
-            <div className="flex items-center gap-20">
-              <div className="sm:col-span-6 md:col-span-3 md:text-lg lg:col-span-2">
-                <h6 className="text-white font-medium mb-2">Products</h6>
-                <ul className="text-sm font-semibold md:text-lg">
-                  <li className="mb-2">
-                    <a
-                      href="#0"
-                      className="text-white/60 hover:text-white transition duration-150 ease-in-out"
-                    >
-                      Fortify
-                    </a>
-                  </li>
-                  <li className="mb-2">
-                    <a
-                      href="#0"
-                      className="text-white/60 hover:text-white transition duration-150 ease-in-out"
-                    >
-                      Fortress
-                    </a>
-                  </li>
-                  <li className="mb-2">
-                    <a
-                      href="#0"
-                      className="text-white/60 hover:text-white transition duration-150 ease-in-out"
-                    >
-                      Token Guard
-                    </a>
-                  </li>
-                  <li className="mb-2">
-                    <a
-                      href="#0"
-                      className="text-white/60 hover:text-white duration-150 ease-in-out"
-                    >
-                      Integrations
-                    </a>
-                  </li>
-                </ul>
-              </div>
+            {/* logo  */}
+            <div className="flex justify-center">
+              <Link href="/" className="" aria-label="Cruip">
+                <Image
+                  src={Logo}
+                  alt="logo"
+                  className="w-64 h-64 sm:w-72 sm:h-72 "
+                />
+              </Link>
+            </div>
+            <div className="flex justify-between  gap-8 pb-8 md:py-12 ">
+              {/* 1st block */}
+              <div className="flex items-center gap-20">
+                <div className="sm:col-span-6 md:col-span-3 md:text-lg lg:col-span-2">
+                  <h6 className="text-white font-medium mb-2">Products</h6>
+                  <ul className="text-sm font-semibold md:text-lg">
+                    <li className="mb-2">
+                      <a
+                        href="#0"
+                        className="text-white/60 hover:text-white transition duration-150 ease-in-out"
+                      >
+                        Fortify
+                      </a>
+                    </li>
+                    <li className="mb-2">
+                      <Link
+                        href="/fortress"
+                        className="text-white/60 hover:text-white transition duration-150 ease-in-out"
+                      >
+                        Fortress
+                      </Link>
+                    </li>
+                    <li className="mb-2">
+                      <Link
+                        href="/token-guard"
+                        className="text-white/60 hover:text-white transition duration-150 ease-in-out"
+                      >
+                        Token Guard
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
 
-              {/* 3rd block */}
-              <div className="sm:col-span-6 md:col-span-3 md:text-lg lg:col-span-2">
-                <h6 className="text-white font-medium mb-2">Resources</h6>
-                <ul className="text-sm font-semibold md:text-lg">
-                  <li className="mb-2">
-                    <a
-                      href="#0"
-                      className="text-white/60 hover:text-white transition duration-150 ease-in-out"
-                    >
-                      Documentation
-                    </a>
-                  </li>
-                  <li className="mb-2">
-                    <a
-                      href="#0"
-                      className="text-white/60 hover:text-white transition duration-150 ease-in-out"
-                    >
-                      Tutorials & Guides
-                    </a>
-                  </li>
-                  <li className="mb-2">
-                    <a
-                      href="#0"
-                      className="text-white/60 hover:text-white transition duration-150 ease-in-out"
-                    >
-                      Blog
-                    </a>
-                  </li>
-                  <li className="mb-2">
-                    <a
-                      href="#0"
-                      className=" text-white/60 hover:text-white transition duration-150 ease-in-out"
-                    >
-                      Support Center
-                    </a>
-                  </li>
-                  <li className="mb-2">
-                    <a
-                      href="#0"
-                      className="text-white/60 hover:text-white transition duration-150 ease-in-out"
-                    >
-                      Partners
-                    </a>
-                  </li>
-                </ul>
+                {/* 3rd block */}
+                <div className="sm:col-span-6 md:col-span-3 md:text-lg lg:col-span-2">
+                  <h6 className="text-white font-medium mb-2">Resources</h6>
+                  <ul className="text-sm font-semibold md:text-lg">
+                    <li className="mb-2">
+                      <a
+                        href="#0"
+                        className="text-white/60 hover:text-white transition duration-150 ease-in-out"
+                      >
+                        Documentation
+                      </a>
+                    </li>
+                    <li className="mb-2">
+                      <a
+                        href="#0"
+                        className="text-white/60 hover:text-white transition duration-150 ease-in-out"
+                      >
+                        Tutorials & Guides
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
           </div>
 
           {/* Bottom area */}
@@ -115,7 +83,7 @@ export const footer = () => {
             <ul className="flex mb-4 md:order-1 md:ml-4 md:mb-0">
               <li>
                 <a
-                  href="#0"
+                  href="https://twitter.com/FortifySolana"
                   className="flex justify-center items-center text-gray-600 hover:text-gray-900 bg-white hover:bg-white-100 rounded-full shadow transition duration-150 ease-in-out"
                   aria-label="Twitter"
                 >
@@ -130,7 +98,7 @@ export const footer = () => {
               </li>
               <li className="ml-4">
                 <a
-                  href="#0"
+                  href="https://github.com/Infinite-Legacy/Fortify"
                   className="flex justify-center items-center text-gray-600 hover:text-gray-900 bg-white hover:bg-white-100 rounded-full shadow transition duration-150 ease-in-out"
                   aria-label="Github"
                 >
@@ -143,29 +111,12 @@ export const footer = () => {
                   </svg>
                 </a>
               </li>
-              <li className="ml-4">
-                <a
-                  href="#0"
-                  className="flex justify-center items-center text-gray-600 hover:text-gray-900 bg-white hover:bg-white-100 rounded-full shadow transition duration-150 ease-in-out"
-                  aria-label="Facebook"
-                >
-                  <svg
-                    className="w-8 h-8 fill-current"
-                    viewBox="0 0 32 32"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M14.023 24L14 17h-3v-3h3v-2c0-2.7 1.672-4 4.08-4 1.153 0 2.144.086 2.433.124v2.821h-1.67c-1.31 0-1.563.623-1.563 1.536V14H21l-1 3h-2.72v7h-3.257z" />
-                  </svg>
-                </a>
-              </li>
             </ul>
 
             {/* Copyrights note */}
             <div className="text-sm text-white mr-4">
               &copy; Fortify Labs. All rights reserved.
             </div>
-
-            {/* &copy; Cruip.com. All rights reserved */}
           </div>
         </div>
       </div>

@@ -1,21 +1,18 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { getTokenBadge } from "@/components/utils/getTokensMetadata";
 
 import TokenInfo from "../../components/ui/tokenInfo";
-
-interface Data {
-  tokenData: any;
-  totalLiquidityValue: any;
-}
 
 const WalletGuard = () => {
   const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(false); // Add loading state
   const [error, setError] = useState<string | any>(null);
   const [success, setSuccess] = useState<string | any>(null);
-  const initialData: Data = { tokenData: {}, totalLiquidityValue: {} };
-  const [data, setData] = useState<Data>(initialData);
-  const [showModal, setShowModal] = useState(false);
+
+  const [data, setData] = useState<any[] | any>("");
+  const [showModal, setShowModal] = useState<Boolean>(false);
+  const [verified, setVerified] = useState<boolean>(false);
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -44,14 +41,15 @@ const WalletGuard = () => {
           address: address,
         }),
       });
-      console.log("Address Analyzed", addressAnalysisResponse.formData);
 
       if (addressAnalysisResponse.ok) {
         const responseData = await addressAnalysisResponse.json();
-        console.log("Token Data Retrived", responseData);
-        // const res = responseData.json
+
+        const verifiedBadge = await getTokenBadge(address);
+
+        setVerified(verifiedBadge);
         setData(responseData);
-        setError(null); // Clear error if submission is successful
+        setError(null);
         toggleModal();
         setAddress("");
         setSuccess("Created Successfully!");
@@ -94,7 +92,7 @@ const WalletGuard = () => {
   useEffect(() => {
     if (success) {
       const timeout: any = setTimeout(() => {
-        setData(initialData);
+        setData("");
       }, 60000);
 
       return () => clearTimeout(timeout);
@@ -180,10 +178,7 @@ const WalletGuard = () => {
                   >
                     &times;
                   </span>
-                  <TokenInfo
-                    tokenData={data.tokenData}
-                    totalLiquidityValue={data.totalLiquidityValue}
-                  />
+                  <TokenInfo tokenData={data} verified = {verified} />
                 </div>
               </div>
             )}

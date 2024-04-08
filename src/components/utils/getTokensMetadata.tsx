@@ -1,8 +1,7 @@
 import { Metaplex } from "@metaplex-foundation/js";
 import { PublicKey, Connection } from "@solana/web3.js";
 import { ENV, TokenListProvider } from "@solana/spl-token-registry";
-
-const rpc = "https://rpc.shyft.to?api_key=DSKXJdx3MYH_3TNP";
+import { verify } from "crypto";
 
 const myApi = "DSKXJdx3MYH_3TNP";
 
@@ -163,5 +162,46 @@ export const getAllNfts = async (walletAddress: string) => {
   } catch (error) {
     console.error("Error fetching NFT:", error);
     return [];
+  }
+};
+
+// 0
+// :
+//
+// :
+// "So11111111111111111111111111111111111111112"
+// chainId
+// :
+// 101
+// decimals
+// :
+// 9
+// extensions
+// :
+// {coingeckoId: 'wrapped-solana'}
+// logoURI
+// :
+// "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png"
+// name
+// :
+// "Wrapped SOL"
+// symbol
+// :
+// "SOL"
+
+export const getTokenBadge = async (tokenAddress: any) => {
+  try {
+    const response = await fetch("https://token.jup.ag/strict");
+    const verifiedTokenList: any[] | any = await response.json();
+
+    const verifiedAddress = verifiedTokenList.map((addy: any) => addy.address);
+
+    const isTokenVerified = verifiedAddress.includes(tokenAddress);
+
+    return isTokenVerified;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+
+    return false;
   }
 };

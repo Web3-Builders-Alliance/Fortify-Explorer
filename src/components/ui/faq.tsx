@@ -63,13 +63,24 @@ export default function Faq() {
                   </AccordionContent>
                 </AccordionItem>
 
+                {/* 2 */}
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>
+                    What is the wallet health?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    We perform a scan on your wallet and provide a score based
+                    on our findings. The higher the score, the more secure it is
+                  </AccordionContent>
+                </AccordionItem>
+
                 <AccordionItem value="item-2">
                   <AccordionTrigger>
                     How Accurate is Fortify's Data?
                   </AccordionTrigger>
                   <AccordionContent>
                     We get our data from the solana blockchain utilizing tools
-                    like Shyft etc
+                    like Shyft, helius and metaplex
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>

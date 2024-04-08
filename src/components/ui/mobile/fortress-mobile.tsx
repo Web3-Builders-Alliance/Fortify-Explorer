@@ -86,7 +86,7 @@ const MobileMenu: FC = ({}) => {
             {/* ///////////////// */}
             <li>
               <Link
-                href="/wallet-guard"
+                href="/token-guard"
                 className="font-bold text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
               >
                 Token Guard
