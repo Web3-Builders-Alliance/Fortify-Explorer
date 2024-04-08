@@ -44,7 +44,6 @@ const WalletGuard = () => {
 
       if (addressAnalysisResponse.ok) {
         const responseData = await addressAnalysisResponse.json();
-
         const verifiedBadge = await getTokenBadge(address);
 
         setVerified(verifiedBadge);
@@ -110,7 +109,7 @@ const WalletGuard = () => {
         <div className="py-12 md:py-20">
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-            <h2 className="h2 mb-4 mt-12">Wallet Guard</h2>
+            <h2 className="h2 font-semibold mb-4 mt-12">Token Guard</h2>
             <p className="text-xl font-medium text-gray-600">
               Get Detailed Information about any token on Solana. We will help
               you understand the technical details of the token.
