@@ -5,12 +5,11 @@ import { FC, useState, useEffect } from "react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import React from "react";
 
-import Logo from "../../../../public/images/fortify-logo.png";
+import Logo2 from "../../../../public/images/newLogo2.png";
 
 import Link from "next/link";
 import Image from "next/image";
 import MobileMenu from "../mobile/fortress-mobile";
-
 
 const Header: FC = ({}) => {
   const [top, setTop] = useState<boolean>(true);
@@ -37,7 +36,7 @@ const Header: FC = ({}) => {
         <div className="flex items-center justify-between h-16 md:h-20">
           <div className="mt-3">
             <Link href="/" className="block" aria-label="Cruip">
-              <Image src={Logo} alt="logo" className="w-20 h-20 " />
+              <Image src={Logo2} alt="logo" className="w-16 h-16" />
             </Link>
           </div>
 
@@ -54,7 +53,7 @@ const Header: FC = ({}) => {
               {/* ///////////////// */}
               <li>
                 <Link
-                 href="fortress/token-guard"
+                  href="fortress/token-guard"
                   className="font-bold text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
                 >
                   Token Guard
