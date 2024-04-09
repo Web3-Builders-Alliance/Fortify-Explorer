@@ -267,16 +267,18 @@ const TokenInfo: React.FC<TokenInfoProps> = ({ tokenData, verified }) => {
 
       <div className="flex flex-col text-sm lg:text-lg justify-start px-7 py-4 gap-2">
         <div className="text-left text-white/80 font-extrabold font-24">
-          <h2>AI GPT Agent Insight</h2>
+          <h2>DEGEN</h2>
         </div>
 
         <div className="w-full font-semibold border-2  border-gray-300 rounded">
-          <p className="text-left text-white/80 p-4">
+          <p className="text-center text-white/80 p-4">
             {" "}
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur
-            reiciendis vitae laborum quos corrupti odio eius sed in, cumque
-            suscipit aut ullam debitis, nihil totam adipisci, recusandae
-            maiores? Reprehenderit, voluptatibus!
+            <button className={`bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 transition-opacity`}
+            >
+
+              Get AI Token Insight
+            </button> <br />
+            <span className="italic font-normal">...Coming Soon</span>
           </p>
         </div>
       </div>
