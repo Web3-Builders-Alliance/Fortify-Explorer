@@ -6,7 +6,6 @@ import Link from "next/link";
 import { FaBarsStaggered, FaX } from "react-icons/fa6";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import ConnectWallet from "../connectWallet";
 
 const MobileMenu: FC = ({}) => {
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
@@ -86,7 +85,7 @@ const MobileMenu: FC = ({}) => {
             {/* ///////////////// */}
             <li>
               <Link
-                href="/token-guard"
+                href="fortress/token-guard"
                 className="font-bold text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
               >
                 Token Guard
@@ -122,7 +121,6 @@ const MobileMenu: FC = ({}) => {
                     fontWeight: "bold",
                   }}
                 />
-                <ConnectWallet />
               </div>
             </li>
           </ul>

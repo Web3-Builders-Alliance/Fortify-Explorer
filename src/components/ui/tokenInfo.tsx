@@ -40,7 +40,7 @@ const TokenInfo: React.FC<TokenInfoProps> = ({ tokenData, verified }) => {
   };
 
   return (
-    <div className="flex flex-col gap-y-2 border-2 bg-[#000434]  rounded-2xl divide-y  divide-blue-600/50 divide-solid shadow-2xl ">
+    <div className="flex flex-col  gap-y-2 border-2 bg-[#000434]  rounded-2xl divide-y  divide-blue-600/50 divide-solid  shadow-2xl ">
       <div className="flex flex-row lg:gap-4 lg:mx-12 items-center py-8  text-white   text-xs md:text-lg ">
         <div className="m-3">
           <img
@@ -201,7 +201,7 @@ const TokenInfo: React.FC<TokenInfoProps> = ({ tokenData, verified }) => {
                 <span className="w-4 h-4">
                   <FaBolt />
                 </span>
-                <p> validated token addresses  </p>
+                <p> validated token addresses </p>
               </div>
 
               <p className={verified ? "text-green-500" : "text-red-500"}>
@@ -265,7 +265,7 @@ const TokenInfo: React.FC<TokenInfoProps> = ({ tokenData, verified }) => {
         </div>
       </div>
 
-      <div className="flex flex-col text-sm lg:text-lg justify-start px-7 py-4 gap-2">
+      <div className="flex flex-col text-sm  lg:text-lg justify-start px-7 py-4 gap-2">
         <div className="text-left text-white/80 font-extrabold font-24">
           <h2>DEGEN</h2>
         </div>

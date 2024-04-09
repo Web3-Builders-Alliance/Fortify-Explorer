@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import fortify from "../../../public/images/fortify-logo.png";
-import { revalidatePath } from "next/cache";
+import Link from "next/link";
 interface TokenHoldings {
   mint: string;
 }
@@ -48,14 +47,27 @@ const Scanresults: React.FC<ScanResultsProps> = ({
 }) => {
   const tokenLength = tokenHoldings.length;
 
-  console.log("Strict list:", strictLists);
-  console.log("Strict list length:", strictNum);
-  console.log("All list:", allLists);
-  console.log("All list length:", allNum);
-  console.log("Unmatched list:", unMatched);
-  console.log("Unmatched number:", unMatchedNum);
-  console.log("RevokeNum:", revokeNum);
-  console.log("RevokeData:", revokeData);
+  const [selectedData, setSelectedData] = useState<any[] | any>("");
+  const [dataView, setDataView] = useState<boolean>(false);
+
+  const handleClick = (data: any[] | any) => {
+    setSelectedData(data);
+    setDataView(true);
+  };
+
+  const toggleModal = () => {
+    setDataView(!dataView);
+  };
+
+  const shortenAddress = (address: any) => {
+    if (!address) return "";
+    const length = address.length;
+    const prefix = address.slice(0, 5);
+    const suffix = address.slice(length - 5, length);
+    return `${prefix}....${suffix}`;
+  };
+
+
 
   return (
     <div className="flex flex-col  gap-y-2 border-2 rounded-2xl md:px-12 bg-white">
@@ -77,7 +89,10 @@ const Scanresults: React.FC<ScanResultsProps> = ({
                 items in this address, which includes tokens, NFTs, and possibly
                 unknown items.
               </p>
-              <button className="font-medium hover:bg-red-900  bg-red-600 w-full md:w-1/5 p-2 rounded-lg">
+              <button
+                onClick={() => handleClick(tokenHoldings)}
+                className="font-medium hover:bg-red-900  bg-red-600 w-full md:w-1/5 p-2 rounded-lg"
+              >
                 Click to view
               </button>
             </li>
@@ -89,7 +104,10 @@ const Scanresults: React.FC<ScanResultsProps> = ({
                 <span className="text-green-600 mx-1">{strictNum}</span>{" "}
                 verified tokens in this address.
               </p>
-              <button className="font-medium hover:bg-red-900  bg-red-600 w-full md:w-1/5 p-2 rounded-lg">
+              <button
+                onClick={() => handleClick(strictLists)}
+                className="font-medium hover:bg-red-900  bg-red-600 w-full md:w-1/5 p-2 rounded-lg"
+              >
                 Click to view
               </button>
             </li>
@@ -102,7 +120,10 @@ const Scanresults: React.FC<ScanResultsProps> = ({
                 <span className="text-green-600 mx-1">{unMatchedNum}</span>{" "}
                 unverified tokens in this address.
               </p>
-              <button className="font-medium hover:bg-red-900  bg-red-600 w-full md:w-1/5 p-2 rounded-lg">
+              <button
+                onClick={() => handleClick(unMatched)}
+                className="font-medium hover:bg-red-900  bg-red-600 w-full md:w-1/5 p-2 rounded-lg"
+              >
                 Click to view
               </button>
             </li>
@@ -114,7 +135,10 @@ const Scanresults: React.FC<ScanResultsProps> = ({
                 NFTs in this wallet address. This includes both verified and
                 scam NFTs.
               </p>
-              <button className="font-medium hover:bg-red-900  bg-red-600 w-full md:w-1/5 p-2 rounded-lg">
+              <button
+                onClick={() => handleClick(nfts)}
+                className="font-medium hover:bg-red-900  bg-red-600 w-full md:w-1/5 p-2 rounded-lg"
+              >
                 Click to view
               </button>
             </li>
@@ -126,7 +150,10 @@ const Scanresults: React.FC<ScanResultsProps> = ({
                 <span className="text-green-600 mx-1 ">{validNftNum}</span>
                 Verified Nfts found in this wallet Address.
               </p>
-              <button className="font-medium hover:bg-red-900  bg-red-600 w-full md:w-1/5 p-2 rounded-lg">
+              <button
+                onClick={() => handleClick(validNft)}
+                className="font-medium hover:bg-red-900  bg-red-600 w-full md:w-1/5 p-2 rounded-lg"
+              >
                 Click to view
               </button>
             </li>
@@ -139,7 +166,10 @@ const Scanresults: React.FC<ScanResultsProps> = ({
                 unverifed NFTs found in this wallet Address. They might possibly
                 be scam nfts
               </p>
-              <button className="font-medium hover:bg-red-900  bg-red-600 w-full md:w-1/5 p-2 rounded-lg">
+              <button
+                onClick={() => handleClick(unknownNft)}
+                className="font-medium hover:bg-red-900  bg-red-600 w-full md:w-1/5 p-2 rounded-lg"
+              >
                 Click to view
               </button>
             </li>
@@ -151,8 +181,11 @@ const Scanresults: React.FC<ScanResultsProps> = ({
                 <span className="text-green-600 mx-1 ">{revokeNum}</span>
                 token approval found in this wallet Address.
               </p>
-              <button className="font-medium hover:bg-red-900  bg-red-600 w-full md:w-1/5 p-2 rounded-lg">
-                Click to view
+              <button
+                onClick={() => handleClick(revokeData)}
+                className="font-medium hover:bg-red-900  bg-red-600 w-full md:w-1/5 p-2 rounded-lg"
+              >
+                <Link href="/fortress/wallet">Click to view</Link>
               </button>
             </li>
             {/* //////// */}
@@ -166,19 +199,56 @@ const Scanresults: React.FC<ScanResultsProps> = ({
                 unidentified items found in this wallet Address. BE CAREFUL
                 while interacting with them
               </p>
-              <button className="font-medium hover:bg-red-900  bg-red-600 w-full md:w-1/5 p-2 rounded-lg">
+              <button
+                onClick={() => handleClick(unknownToken)}
+                className="font-medium hover:bg-red-900  bg-red-600 w-full md:w-1/5 p-2 rounded-lg"
+              >
                 Click to view
               </button>
             </li>
           </ul>
         </div>
-        {/* {tokenHoldings.map((t: any, index: number) => (
-          <div className="flex flex-col w-full gap-4 " key={index}>
-            <img className="w-40" src={t.logoURI} alt="tokenImage" />
-            <p>{t.name}</p>
-            <p>{t.mint}</p>
+        {/*  */}
+        {dataView && (
+          <div className="block fixed z-50  top-0 left-0 w-full  h-full overflow-auto ">
+            <div className="bg-[#000434] m-auto relative p-5 ">
+              <button
+                className="flex absolute text-white right-4 cursor-pointer justify-end px-5 py-2 text-5xl font-normal "
+                onClick={toggleModal}
+              >
+                &times;
+              </button>
+              <div className="flex flex-col justify-center items-center gap-8 text-white text-sm md:text-lg mt-24 h-full mb-[460px] px-6 ">
+                {selectedData.map((t: any, index: number) => (
+                  <div
+                    className="flex flex-row  items-center  max-w-4xl gap-4  border border-green-600 rounded-xl p-2 "
+                    key={index}
+                  >
+                    <img
+                      className="w-10 h-10 rounded-full"
+                      src={t.logoURI || t.imgage}
+                      alt="tokenImage"
+                    />
+                    <p>{t.name}</p>
+
+                    <p className="text-blue-600">
+                      <a
+                        href={`https://solscan.io/token/${
+                          t.mint || t.mintAdddress
+                        }`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {shortenAddress(t.mint || t.mintAdddress)}
+                      </a>
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        ))} */}
+        )}
+        ;
       </div>
     </div>
   );
