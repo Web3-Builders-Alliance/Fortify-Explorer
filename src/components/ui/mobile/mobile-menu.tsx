@@ -6,7 +6,6 @@ import Link from "next/link";
 import { FaBarsStaggered, FaX } from "react-icons/fa6";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import ConnectWallet from "../connectWallet";
 
 const MobileMenu: FC = ({}) => {
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
@@ -94,7 +93,6 @@ const MobileMenu: FC = ({}) => {
                     fontWeight: "bold",
                   }}
                 />
-                <ConnectWallet />
               </div>
             </li>
           </ul>

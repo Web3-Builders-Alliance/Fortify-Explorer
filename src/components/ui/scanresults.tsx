@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import fortify from "../../../public/images/fortify-logo.png";
-import { revalidatePath } from "next/cache";
+import Link from "next/link";
 interface TokenHoldings {
   mint: string;
 }
@@ -47,6 +46,12 @@ const Scanresults: React.FC<ScanResultsProps> = ({
   validNftNum,
 }) => {
   const tokenLength = tokenHoldings.length;
+
+  const [selectedData, setSelectedData] = useState<any[] | any>("");
+
+  const handleClick = (data: any[] | any) => {
+    setSelectedData(data);
+  };
 
   console.log("Strict list:", strictLists);
   console.log("Strict list length:", strictNum);
@@ -152,7 +157,7 @@ const Scanresults: React.FC<ScanResultsProps> = ({
                 token approval found in this wallet Address.
               </p>
               <button className="font-medium hover:bg-red-900  bg-red-600 w-full md:w-1/5 p-2 rounded-lg">
-                Click to view
+                <Link href="/fortress/wallet">Click to view</Link>
               </button>
             </li>
             {/* //////// */}

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { getTokenBadge } from "@/components/utils/getTokensMetadata";
 
-import TokenInfo from "../../components/ui/tokenInfo";
+import TokenInfo from "@/components/ui/tokenInfo";
 
 const WalletGuard = () => {
   const [address, setAddress] = useState("");
@@ -169,7 +169,7 @@ const WalletGuard = () => {
             {success && <p className="text-green-500">{success}</p>}
 
             {showModal && (
-              <div className="block fixed z-50  top-0 left-0  h-full overflow-auto ">
+              <div className="block w-full fixed z-50  top-0 left-0  h-full overflow-auto ">
                 <div className="bg-white m-auto relative p-5 ">
                   <span
                     className="flex absolute text-white right-4 cursor-pointer justify-end px-5 py-2 text-5xl font-normal "
@@ -177,7 +177,7 @@ const WalletGuard = () => {
                   >
                     &times;
                   </span>
-                  <TokenInfo tokenData={data} verified = {verified} />
+                  <TokenInfo tokenData={data} verified={verified} />
                 </div>
               </div>
             )}

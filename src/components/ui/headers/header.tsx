@@ -9,7 +9,6 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "../../../../public/images/fortify-logo.png";
 import MobileMenu from "../mobile/mobile-menu";
-import ConnectWallet from "../connectWallet";
 
 const Header: FC = ({}) => {
   const [top, setTop] = useState<boolean>(true);
@@ -61,7 +60,6 @@ const Header: FC = ({}) => {
                       fontWeight: "bold",
                     }}
                   />
-                  {/* <ConnectWallet /> */}
                 </div>
               </li>
             </ul>
