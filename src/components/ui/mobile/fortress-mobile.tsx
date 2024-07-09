@@ -7,7 +7,7 @@ import { FaBarsStaggered, FaX } from "react-icons/fa6";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
-const MobileMenu: FC = ({}) => {
+const MobileMenu = ({ top }: { top: any }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
 
   const trigger = useRef<HTMLButtonElement>(null);
@@ -52,9 +52,9 @@ const MobileMenu: FC = ({}) => {
       >
         <span className={mobileNavOpen ? "rotate-180" : ""}>
           {!mobileNavOpen ? (
-            <FaBarsStaggered className="w-6 h-6" />
+            <FaBarsStaggered className={`w-6 h-6 text-white `} />
           ) : (
-            <FaX className="w-5 h-5" />
+            <FaX className="w-5 h-5 text-white" />
           )}
         </span>
       </button>
@@ -65,7 +65,7 @@ const MobileMenu: FC = ({}) => {
           show={mobileNavOpen}
           as="nav"
           id="mobile-nav"
-          className="absolute top-full h-screen pb-16 z-20 left-0 w-full overflow-scroll bg-white"
+          className="absolute top-[73px] pt-20 h-screen pb-16 z-20 left-0 w-full  bg-[#000434]"
           enter="transition ease-out duration-200 transform"
           enterFrom="opacity-0 -translate-y-2"
           enterTo="opacity-100 translate-y-0"
@@ -76,17 +76,17 @@ const MobileMenu: FC = ({}) => {
           <ul className="flex flex-col w-full gap-4 justify-center items-center ">
             <li>
               <Link
-                href="/fortress"
-                className="font-bold text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
+                href="/explorer"
+                className="font-bold text-gray-400 hover:text-gray-600 px-5 py-3 flex items-center transition duration-150 ease-in-out"
               >
-                Fortress
+                Explorer
               </Link>
             </li>
             {/* ///////////////// */}
             <li>
               <Link
-                href="fortress/token-guard"
-                className="font-bold text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
+                href="explorer/token-guard"
+                className="font-bold text-gray-400 hover:text-gray-600 px-5 py-3 flex items-center transition duration-150 ease-in-out"
               >
                 Token Guard
               </Link>
@@ -96,7 +96,7 @@ const MobileMenu: FC = ({}) => {
             <li>
               <Link
                 href="/fortress"
-                className="font-bold text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
+                className="font-bold text-gray-400 hover:text-gray-600 px-5 py-3 flex items-center transition duration-150 ease-in-out"
               >
                 Fortify Revoke
               </Link>

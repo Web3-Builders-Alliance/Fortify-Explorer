@@ -6,7 +6,7 @@ export const footer = () => {
     <footer>
       <div className="w-full bg-[#000434] ">
         {/* Top area: Blocks */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 border-t border-gray-200 ">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6  border-gray-200 ">
           <div className="sm:flex justify-between ">
             {/* logo  */}
             <div className="flex justify-center">
@@ -24,14 +24,6 @@ export const footer = () => {
                 <div className="sm:col-span-6 md:col-span-3 md:text-lg lg:col-span-2">
                   <h6 className="text-white font-medium mb-2">Products</h6>
                   <ul className="text-sm font-semibold md:text-lg">
-                    <li className="mb-2">
-                      <a
-                        href="#0"
-                        className="text-white/60 hover:text-white transition duration-150 ease-in-out"
-                      >
-                        Fortify
-                      </a>
-                    </li>
                     <li className="mb-2">
                       <Link
                         href="/fortress"

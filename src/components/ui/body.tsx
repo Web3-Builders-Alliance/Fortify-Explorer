@@ -1,8 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import secure from "../../../public/images/secure.svg";
-
 
 const Body = () => {
   return (
@@ -15,28 +12,15 @@ const Body = () => {
             <h1 className="text-white text-xl md:text-3xl font-bold  mb-6">
               Explore the solutions
             </h1>
-            <p className="text-sm rounded-2xl shadow-2xl bg-gray-400/30 p-3 md:p-6 leading-8 lg:leading-10 md:text-xl font-semibold text-white">
+            <p className="text-sm rounded-2xl shadow-2xl bg-gray-400/30 p-3 md:p-6 leading-8 lg:leading-10 md:text-base font-semibold text-white">
               Fortify presents a comprehensive suite of solutions tailored to
-              bolster security for users in the Solana ecosystem. We offer token
+              bolster security for users in the Solana ecosystem. Our explorer
+              is laced with tools that ensures users remain well-informed and
+              protected in their endeavors. In our explorer we have token
               analysis, wallet scans, connection revocation, dApp security
-              checks, multisig support, MFA authentication, and heightened
-              security awareness ensuring users remain well-informed and
-              protected in their endeavors.
+              checks, smart contract registry, MFA authentication and More
             </p>
           </div>
-
-          {/* Hero image */}
-          {/* <div
-            className="flex justify-center md:my-12 pr-16 md:pr-0 h-52 md:h-72"
-            data-aos="zoom-y-out"
-            data-aos-delay="150"
-          >
-            <Image
-              src={secure}
-              alt="hero-img"
-              className="max-w-sm mx-auto px-4 sm:px-6"
-            />
-          </div> */}
         </div>
       </div>
     </section>

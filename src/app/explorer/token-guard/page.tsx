@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { getTokenBadge } from "@/components/utils/getTokensMetadata";
+import { tokenData, TokenPriceProps } from "@/components/utils/getTokenData";
 
 import TokenInfo from "@/components/ui/tokenInfo";
 
@@ -35,27 +36,17 @@ const WalletGuard = () => {
     }, 20000);
 
     try {
-      const addressAnalysisResponse = await fetch("/api/address", {
-        method: "POST",
-        body: JSON.stringify({
-          address: address,
-        }),
-      });
+      const props: TokenPriceProps = { address };
 
-      if (addressAnalysisResponse.ok) {
-        const responseData = await addressAnalysisResponse.json();
-        const verifiedBadge = await getTokenBadge(address);
+      const response = await tokenData(props);
+      const verifiedBadge = await getTokenBadge(address);
 
-        setVerified(verifiedBadge);
-        setData(responseData);
-        setError(null);
-        toggleModal();
-        setAddress("");
-        setSuccess("Created Successfully!");
-      } else {
-        // Handle error response
-        setError("An error occurred while sending data to Metaplex");
-      }
+      setVerified(verifiedBadge);
+      setData(response);
+      setError(null);
+      toggleModal();
+      setAddress("");
+      setSuccess("Created Successfully!");
 
       setLoading(false); // Set loading to false after processing
 

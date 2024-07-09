@@ -4,6 +4,7 @@ const rpc =
 
 // UMI instance for getting token security details
 
+
 async function getFirstData(token: any) {
   console.log("token fetched:", token);
   try {

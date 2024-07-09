@@ -1,15 +1,35 @@
 import { Metaplex } from "@metaplex-foundation/js";
 import { PublicKey, Connection } from "@solana/web3.js";
 import { ENV, TokenListProvider } from "@solana/spl-token-registry";
-import { verify } from "crypto";
 
-const myApi = "DSKXJdx3MYH_3TNP";
+const endpoint: any = process.env.NEXT_PUBLIC_RPC;
 
+const connection = new Connection(endpoint);
+
+const myApi: any = process.env.NEXT_SHYFT_API;
+
+// const fetchTokenBalances = async (
+//   connection: Connection,
+//   tokenAccounts: any[]
+// ) => {
+//   const balances = await Promise.all(
+//     tokenAccounts.map(async (account) => {
+//       const balance = await connection.getTokenAccountBalance(
+//         new PublicKey(account.tokenAccountaddress)
+//       );
+
+//       const uiAmount = balance.value.uiAmountString;
+//       console.log("Balance:", uiAmount);
+//       return { ...account, balance: uiAmount };
+//     })
+//   );
+//   return balances;
+// };
 export const getTokensMetadata = async (
   tokens: {
     tokenAccountaddress: string[] | any;
     mintAdddress: any;
-    amount?: number;
+    balance: number;
   }[],
   connection: Connection
 ) => {
@@ -27,7 +47,7 @@ export const getTokensMetadata = async (
       const tokenAccount = token.tokenAccountaddress;
       const mint = token.mintAdddress;
       const mintPublickey = new PublicKey(mint);
-      const amount = token.amount;
+      const amount = token.balance;
       let name = "";
       let logoURI = "";
       try {
@@ -69,6 +89,7 @@ export const getTokensMetadata = async (
           name = token.name;
         }
       }
+      // possibly add price side here...
       return { name, logoURI, tokenAccount, mint, amount };
     })
   );
@@ -85,54 +106,143 @@ export const getTokensMetadata = async (
   return tokensMetadata;
 };
 
-export const getTokenStatus = async (mintAddresses: any[]) => {
+export const getNftsMetadata = async (
+  tokens: {
+    tokenAccountaddress?: string[] | any;
+    mintAdddress: any;
+  }[],
+  connection: Connection
+) => {
+  const metaplex = new Metaplex(connection);
+  const provider = await new TokenListProvider().resolve();
+  const tokenList = provider.filterByChainId(ENV.MainnetBeta).getList();
+
+  const tokenMap = tokenList.reduce((map, item) => {
+    map.set(item.address, item);
+    return map;
+  }, new Map<string, any>());
+
+  const tokensMetadata = await Promise.all(
+    tokens.map(async (token) => {
+      const tokenAccount = token.tokenAccountaddress;
+      if (!token.mintAdddress) {
+        console.error("Mint address is missing for token:", token);
+        return null;
+      }
+      const mint = token.mintAdddress;
+
+      const amount = 1;
+      let name = "";
+      let logoURI = "";
+      try {
+        // const mintPublickey = new PublicKey(mint);
+        const nft = await metaplex.nfts().findByMint({ mintAddress: mint });
+        name = nft.name || nft.json?.name || "Unknown token";
+        logoURI =
+          nft.json?.image ||
+          tokenMap.get(mint)?.logoURI ||
+          "https://arweave.net/WCMNR4N-4zKmkVcxcO2WImlr2XBAlSWOOKBRHLOWXNA";
+      } catch (error) {
+        console.error(
+          "Error fetching NFT metadata for mint address:",
+          mint,
+          error
+        );
+        const fallbackToken = tokenMap.get(mint);
+        name = fallbackToken?.name || "Unknown token";
+        logoURI =
+          fallbackToken?.logoURI ||
+          "https://arweave.net/WCMNR4N-4zKmkVcxcO2WImlr2XBAlSWOOKBRHLOWXNA";
+      }
+
+      return { name, logoURI, tokenAccount, mint, amount };
+    })
+  );
+
+  const validTokensMetadata = tokensMetadata.filter(Boolean);
+
+  validTokensMetadata.sort((a: any, b: any) => {
+    if (a.name.toUpperCase() < b.name.toUpperCase()) {
+      return -1;
+    }
+    if (a.name.toUpperCase() > b.name.toUpperCase()) {
+      return 1;
+    }
+    return 0;
+  });
+
+  return validTokensMetadata;
+};
+
+export const getTokenStatus = async (
+  tokens: {
+    name: string;
+    logoURI: string;
+    tokenAccount: any;
+    mint: any;
+    amount: number;
+  }[]
+) => {
   try {
     const response = await fetch("https://token.jup.ag/strict");
     const strictTokenList = await response.json();
 
-    const matchedTokens = mintAddresses
-      .map((mintAddress) => {
-        const matchedToken = strictTokenList.find(
-          (token: any) => token.address === mintAddress
-        );
-        if (matchedToken) {
-          return {
-            mintAddress,
-            address: matchedToken.address,
-            name: matchedToken.name,
-            Symbol: matchedToken.symbol,
-            imgage: matchedToken.logoURI,
-            tags: matchedToken.tags,
-          };
-        }
-        return null;
-      })
-      .filter((token) => token !== null);
-    return matchedTokens;
+    const matchedTokensPromises = tokens.map(async (token) => {
+      const matchedToken = strictTokenList.find(
+        (strictToken: any) => strictToken.address === token.mint
+      );
+
+      if (matchedToken) {
+        return {
+          mintAddress: token.mint,
+          address: matchedToken.address,
+          name: matchedToken.name,
+          symbol: matchedToken.symbol,
+          image: matchedToken.logoURI,
+          tags: matchedToken.tags,
+          amount: token.amount,
+        };
+      }
+
+      return null;
+    });
+
+    const matchedTokens = await Promise.all(matchedTokensPromises);
+
+    return matchedTokens.filter((token) => token !== null);
   } catch (error) {
     console.error("Error fetching token status:", error);
     return [];
   }
 };
 
-export const getAllTokenStatus = async (mintAddresses: any[]) => {
+export const getAllTokenStatus = async (
+  tokens: {
+    name: string;
+    logoURI: string;
+    tokenAccount: any;
+    mint: any;
+    amount: number;
+  }[]
+) => {
   try {
     const response = await fetch("https://token.jup.ag/all");
     const allTokenList = await response.json();
 
-    const matchedTokens = mintAddresses
-      .map((mintAddress) => {
+    const matchedTokens = tokens
+      .map((token) => {
         const matchedToken = allTokenList.find(
-          (token: any) => token.address === mintAddress
+          (allToken: any) => allToken.address === token.mint
         );
         if (matchedToken) {
           return {
-            mintAddress,
+            mintAddress: token.mint,
             address: matchedToken.address,
             name: matchedToken.name,
-            Symbol: matchedToken.symbol,
-            imgage: matchedToken.logoURI,
+            symbol: matchedToken.symbol,
+            image: matchedToken.logoURI,
             tags: matchedToken.tags,
+            amount: token.amount,
           };
         }
         return null;
@@ -140,23 +250,25 @@ export const getAllTokenStatus = async (mintAddresses: any[]) => {
       .filter((token) => token !== null);
     return matchedTokens;
   } catch (error) {
-    console.error("Error fetching token status:", error);
+    console.error("Error fetching all token status:", error);
     return [];
   }
 };
 
-export const getAllNfts = async (walletAddress: string) => {
+export const getAllNfts = async (walletAddress: string | any) => {
   try {
     const response = await fetch(
       `https://api.shyft.to/sol/v1/wallet/get_portfolio?network=mainnet-beta&wallet=${walletAddress}`,
       {
         method: "GET",
         headers: {
-          "x-api-key": myApi,
+          "x-api-key": " DSKXJdx3MYH_3TNP",
         },
       }
     );
     const { result } = await response.json();
+
+    console.log(result);
 
     return result;
   } catch (error) {

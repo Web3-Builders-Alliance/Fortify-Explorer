@@ -11,7 +11,7 @@ import {
 export const Extended = () => {
   return (
     <section className="relative bg-white">
-      {/* Section background (needs .relative class on parent and next sibling elements) */}
+   
       <div
         className="absolute inset-0 top-1/2 md:mt-24 lg:mt-0 bg-[#000434] pointer-events-none"
         aria-hidden="true"
@@ -44,6 +44,20 @@ export const Extended = () => {
               <p className="text-gray-600 text-center text-sm md:text-xl  py-3">
                 Ensure 90% wallet health through weekly scans for maximum
                 assurance
+              </p>
+            </div>
+
+
+            {/*  */}
+            <div className="relative flex flex-col items-center p-6 bg-white rounded shadow-xl">
+              <span className="flex justify-center p-4 text-xl  rounded-full bg-[#000434] text-white -mt-1 mb-2">
+                <FaBriefcaseMedical />
+              </span>
+              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">
+                Explorer
+              </h4>
+              <p className="text-sm md:text-xl text-gray-600 text-center">
+              Check your wallets using our explorer and get all the security details you need 
               </p>
             </div>
 
@@ -104,18 +118,7 @@ export const Extended = () => {
             </div>
 
             {/* 6th item */}
-            <div className="relative flex flex-col items-center p-6 bg-white rounded shadow-xl">
-              <span className="flex justify-center p-4 text-xl  rounded-full bg-[#000434] text-white -mt-1 mb-2">
-                <FaBriefcaseMedical />
-              </span>
-              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">
-                Web3 Security
-              </h4>
-              <p className="text-sm md:text-xl text-gray-600 text-center">
-                We have plans to implement MFA and Multisig functionalities, all
-                efforts to secure assets!
-              </p>
-            </div>
+            
           </div>
         </div>
       </div>

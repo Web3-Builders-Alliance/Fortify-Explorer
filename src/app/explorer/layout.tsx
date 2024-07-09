@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-
 import Header from "@/components/ui/headers/fotress-header";
-
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -19,15 +17,12 @@ export default function DefaultLayout({
       duration: 700,
       easing: "ease-out-cubic",
     });
-  });
+  }, []);
 
   return (
-    <>
-      <main className="grow">
-        <Header />
-
-        {children}
-      </main>
-    </>
+    <main className="grow">
+      <Header />
+      {children}
+    </main>
   );
 }

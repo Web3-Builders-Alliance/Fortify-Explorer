@@ -1,20 +1,14 @@
 "use client";
 
 import { FC, useState, useEffect } from "react";
-
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import React from "react";
-
-import Logo2 from "../../../../public/images/newLogo2.png";
-
 import Link from "next/link";
 import Image from "next/image";
 import MobileMenu from "../mobile/fortress-mobile";
 
-const Header: FC = ({}) => {
+const FortressHeader: FC = ({}) => {
   const [top, setTop] = useState<boolean>(true);
-  // wallet stuff
-  // const { publicKey } = useWallet();
 
   const scrollHandler = () => {
     window.pageYOffset > 10 ? setTop(false) : setTop(true);
@@ -28,33 +22,37 @@ const Header: FC = ({}) => {
 
   return (
     <header
-      className={`fixed w-full z-30 md:bg-opacity-90 transition duration-300 ease-in-out bg-white ${
-        !top ? " backdrop-blur-sm shadow-lg" : ""
-      }`}
+      className={`fixed w-full z-30 py-1  transition duration-300 ease-in-out  border-[#34d4f7]/60 bg-[#171b56] border-b`}
     >
       <div className=" px-5 sm:px-6">
         <div className="flex items-center justify-between h-16 md:h-20">
           <div className="mt-3">
             <Link href="/" className="block" aria-label="Cruip">
-              <Image src={Logo2} alt="logo" className="w-16 h-16" />
+              <Image
+                src="/images/newLogo2.png"
+                alt="logo"
+                width="200"
+                height="200"
+                className="w-16 h-16"
+              />
             </Link>
           </div>
 
-          <nav className="hidden md:flex md:grow">
+          <nav className="hidden md:flex ">
             <ul className="flex gap-5 grow justify-end flex-wrap items-center">
               <li>
                 <Link
-                  href="/fortress"
-                  className="font-bold text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
+                  href="/explorer"
+                  className="font-bold text-gray-400 hover:text-gray-600 px-5 py-3 flex items-center transition duration-150 ease-in-out"
                 >
-                  Fortress
+                  Explorer
                 </Link>
               </li>
               {/* ///////////////// */}
               <li>
                 <Link
-                  href="fortress/token-guard"
-                  className="font-bold text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
+                  href="explorer/token-guard"
+                  className="font-bold text-gray-400 hover:text-gray-600 px-5 py-3 flex items-center transition duration-150 ease-in-out"
                 >
                   Token Guard
                 </Link>
@@ -64,20 +62,11 @@ const Header: FC = ({}) => {
               <li>
                 <Link
                   href="/fortress"
-                  className="font-bold text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
+                  className="font-bold text-gray-400 hover:text-gray-600 px-5 py-3 flex items-center transition duration-150 ease-in-out"
                 >
                   Fortify Revoke
                 </Link>
               </li>
-              {/* /////////////// */}
-              {/* <li>
-                <Link
-                  href="/fortress"
-                  className="font-bold text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
-                >
-                  Token List
-                </Link>
-              </li> */}
 
               <li>
                 <div className="flex-none">
@@ -94,11 +83,11 @@ const Header: FC = ({}) => {
             </ul>
           </nav>
 
-          <MobileMenu />
+          <MobileMenu top={top} />
         </div>
       </div>
     </header>
   );
 };
 
-export default Header;
+export default FortressHeader;

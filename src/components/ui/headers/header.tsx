@@ -1,15 +1,12 @@
 "use client";
 
-import { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import React from "react";
-
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "../../../../public/images/fortify-logo.png";
-import Logo2 from "../../../../public/images/newLogo2.png";
 import MobileMenu from "../mobile/mobile-menu";
+
 
 const Header: FC = ({}) => {
   const [top, setTop] = useState<boolean>(true);
@@ -36,7 +33,13 @@ const Header: FC = ({}) => {
         <div className="flex items-center justify-between h-16 md:h-20">
           <div className="mt-3">
             <Link href="/" className="block" aria-label="Cruip">
-              <Image src={Logo2} alt="logo" className="w-16 h-16" />
+              <Image
+                src="/images/newLogo2.png"
+                alt="logo"
+                width="200"
+                height="200"
+                className="w-16 h-16"
+              />
             </Link>
           </div>
 
@@ -44,10 +47,10 @@ const Header: FC = ({}) => {
             <ul className="flex gap-5 grow justify-end flex-wrap items-center">
               <li>
                 <Link
-                  href="/fortress"
+                  href="/explorer"
                   className="font-bold text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
                 >
-                  Fortress
+                  Explorer
                 </Link>
               </li>
 

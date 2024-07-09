@@ -3,6 +3,8 @@
 import { useEffect } from "react";
 import Header from "@/components/ui/headers/header";
 
+import FortressHeader from "@/components/ui/headers/fotress-header";
+
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -11,6 +13,8 @@ export default function DefaultLayout({
 }: {
   children: React.ReactNode;
 }) {
+ 
+
   useEffect(() => {
     AOS.init({
       once: true,
@@ -18,15 +22,15 @@ export default function DefaultLayout({
       duration: 700,
       easing: "ease-out-cubic",
     });
-  });
+  }, []);
+
+
 
   return (
-    <>
-      <main className="grow">
-        <Header />
+    <main className="font-light grow text-gray-900 ">
+     <Header/>
 
-        {children}
-      </main>
-    </>
+      {children}
+    </main>
   );
 }
