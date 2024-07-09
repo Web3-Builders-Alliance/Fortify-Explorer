@@ -1,6 +1,6 @@
-# Fortify
+## CAPSTONE PROJECT : Fortify
 
-#WBA 
+#WBA ADDRESS: 8KtF6ArKAi83ogdWQviJvtz8UUbyp6mxuWs7A9tFQz1X 
 
 ## Overview
 Fortify is a robust security solution tailored specifically for users within the Solana ecosystem. With Fortify, users can enhance the security of their assets and transactions through a range of advanced features and tools.
